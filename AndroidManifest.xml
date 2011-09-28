@@ -896,9 +896,13 @@
         <activity android:name="ConfirmLockPassword"
             android:windowSoftInputMode="stateVisible|adjustResize"/>
 
+        <activity android:name="ConfirmLockFinger"
+            android:configChanges="orientation|keyboardHidden"/>
+
         <activity android:name="ChooseLockGeneric"
             android:label="@string/lockpassword_choose_lock_generic_header"
-            android:excludeFromRecents="true" >
+            android:excludeFromRecents="true"
+            android:configChanges="orientation|keyboardHidden">
             <intent-filter>
                 <action android:name="android.app.action.SET_NEW_PASSWORD" />
                 <category android:name="android.intent.category.DEFAULT" />
@@ -907,10 +911,15 @@
 
         <activity android:name="ChooseLockPattern" android:exported="false"/>
 
+        <activity android:name="ChooseLockFinger" android:exported="false"
+            android:configChanges="orientation|keyboardHidden"/>
+
         <activity android:name="ChooseLockPassword" android:exported="false"
             android:windowSoftInputMode="stateVisible|adjustResize"/>
 
         <activity android:name="ChooseLockPatternTutorial" android:exported="false"/>
+
+        <activity android:name="ChooseLockFingerTutorial" android:exported="false"/>
 
         <!-- Anonymous Statistics -->
         <receiver android:name=".cmstats.ReportingServiceManager"
@@ -1325,6 +1334,12 @@
             <meta-data android:name="com.android.settings.TOP_LEVEL_HEADER_ID"
                 android:resource="@id/sync_settings" />
         </activity>
+
+        <service android:name="com.android.settings.GfxEngineRelayService">
+            <intent-filter>
+                <action android:name="com.authentec.KeyguardSettings" />
+            </intent-filter>
+        </service>
 
         <activity android:name="com.android.settings.accounts.AddAccountSettings"
             android:theme="@android:style/Theme.Translucent.NoTitleBar"

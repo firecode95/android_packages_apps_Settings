@@ -32,6 +32,11 @@
             android:persistent="false"/>
 
     <PreferenceScreen
+            android:key="unlock_set_finger"
+            android:title="@string/lockfinger_unlock_set_unlock_finger_title"
+            android:persistent="false"/>
+
+    <PreferenceScreen
             android:key="unlock_set_pattern"
             android:title="@string/unlock_set_unlock_pattern_title"
             android:persistent="false"/>

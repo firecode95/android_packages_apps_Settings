@@ -22,8 +22,10 @@ import android.app.admin.DevicePolicyManager;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.SystemProperties;
 import android.preference.Preference;
 import android.preference.PreferenceActivity;
+import android.preference.PreferenceCategory;
 import android.preference.PreferenceScreen;
 import android.security.KeyStore;
 import android.view.LayoutInflater;
@@ -52,6 +54,7 @@ public class ChooseLockGeneric extends PreferenceActivity {
         private static final String KEY_UNLOCK_SET_PIN = "unlock_set_pin";
         private static final String KEY_UNLOCK_SET_PASSWORD = "unlock_set_password";
         private static final String KEY_UNLOCK_SET_PATTERN = "unlock_set_pattern";
+        private static final String KEY_UNLOCK_SET_FINGER = "unlock_set_finger";
         private static final int CONFIRM_EXISTING_REQUEST = 100;
         private static final int FALLBACK_REQUEST = 101;
         private static final String PASSWORD_CONFIRMED = "password_confirmed";
@@ -64,6 +67,7 @@ public class ChooseLockGeneric extends PreferenceActivity {
         private DevicePolicyManager mDPM;
         private KeyStore mKeyStore;
         private boolean mPasswordConfirmed = false;
+        private String msTempPasscode = null;
 
         @Override
         public void onCreate(Bundle savedInstanceState) {
@@ -111,6 +115,9 @@ public class ChooseLockGeneric extends PreferenceActivity {
             }else if (KEY_UNLOCK_SET_PATTERN.equals(key)) {
                 updateUnlockMethodAndFinish(
                         DevicePolicyManager.PASSWORD_QUALITY_SOMETHING, false);
+            } else if (KEY_UNLOCK_SET_FINGER.equals(key)) {
+                updateUnlockMethodAndFinish(
+                        DevicePolicyManager.PASSWORD_QUALITY_FINGER, false);
             } else if (KEY_UNLOCK_SET_PIN.equals(key)) {
                 updateUnlockMethodAndFinish(
                         DevicePolicyManager.PASSWORD_QUALITY_NUMERIC, false);
@@ -143,6 +150,13 @@ public class ChooseLockGeneric extends PreferenceActivity {
             super.onActivityResult(requestCode, resultCode, data);
             if (requestCode == CONFIRM_EXISTING_REQUEST && resultCode == Activity.RESULT_OK) {
                 mPasswordConfirmed = true;
+                if (data != null) {
+            // Get the returned temporary passcode for FP unlock mode
+                Bundle bundle = data.getExtras();
+                if (bundle != null) {
+                    msTempPasscode = bundle.getString("temp-passcode");
+                }
+            }
                 updatePreferencesOrFinish();
             } else if(requestCode == FALLBACK_REQUEST) {
                 mChooseLockSettingsHelper.utils().deleteTempGallery();
@@ -249,6 +263,8 @@ public class ChooseLockGeneric extends PreferenceActivity {
                         visible = weakBiometricAvailable; // If not available, then don't show it.
                     } else if (KEY_UNLOCK_SET_PATTERN.equals(key)) {
                         enabled = quality <= DevicePolicyManager.PASSWORD_QUALITY_SOMETHING;
+                    } else if (KEY_UNLOCK_SET_FINGER.equals(key)) {
+                    enabled = quality <= DevicePolicyManager.PASSWORD_QUALITY_FINGER;
                     } else if (KEY_UNLOCK_SET_PIN.equals(key)) {
                         enabled = quality <= DevicePolicyManager.PASSWORD_QUALITY_NUMERIC;
                     } else if (KEY_UNLOCK_SET_PASSWORD.equals(key)) {
@@ -333,6 +349,23 @@ public class ChooseLockGeneric extends PreferenceActivity {
                     intent.addFlags(Intent.FLAG_ACTIVITY_FORWARD_RESULT);
                     startActivity(intent);
                 }
+            } else if (quality == DevicePolicyManager.PASSWORD_QUALITY_FINGER) {
+                boolean showTutorial = !mChooseLockSettingsHelper.utils().isPatternEverChosen();
+                Intent intent = new Intent().setClass(getActivity(), ChooseLockFinger.class);
+                //Intent intent = new Intent();
+                //intent.setClass(getActivity()
+                //        : ChooseLockFinger.class);
+                //intent.setClass(this, ChooseLockFinger.class);
+                        //intent.addFlags(Intent.FLAG_ACTIVITY_FORWARD_RESULT);
+                        //intent.putExtra("key_lock_method", "finger");
+            if (msTempPasscode != null) {
+                // Transmit the temporary passcode to ChooseLockFinger
+                intent.putExtra("temp-passcode", msTempPasscode);
+                // Clear the temporary passcode string
+                msTempPasscode = null;
+            }
+            intent.putExtra(CONFIRM_CREDENTIALS, false);
+            startActivity(intent);
             } else if (quality == DevicePolicyManager.PASSWORD_QUALITY_SOMETHING) {
                 boolean showTutorial = !mChooseLockSettingsHelper.utils().isPatternEverChosen();
                 Intent intent = new Intent();
