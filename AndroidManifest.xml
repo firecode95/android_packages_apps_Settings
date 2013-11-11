@@ -1037,9 +1037,13 @@
         <activity android:name="ConfirmLockPassword"
             android:windowSoftInputMode="stateVisible|adjustResize"/>
 
+        <activity android:name="ConfirmLockFinger"
+            android:configChanges="orientation|keyboardHidden"/>
+
         <activity android:name="ChooseLockGeneric"
             android:label="@string/lockpassword_choose_lock_generic_header"
-            android:excludeFromRecents="true" >
+            android:excludeFromRecents="true"
+            android:configChanges="orientation|keyboardHidden">
             <intent-filter>
                 <action android:name="android.app.action.SET_NEW_PASSWORD" />
                 <category android:name="android.intent.category.DEFAULT" />
@@ -1049,6 +1053,9 @@
         <activity android:name="ChooseLockPatternSize" android:exported="false"/>
 
         <activity android:name="ChooseLockPattern" android:exported="false"/>
+
+        <activity android:name="ChooseLockFinger"
+            android:configChanges="orientation|keyboardHidden"/>
 
         <activity android:name="ChooseLockPassword" android:exported="false"
             android:windowSoftInputMode="stateVisible|adjustResize"/>
@@ -1505,6 +1512,12 @@
             </intent-filter>
         </activity>
 
+        <service android:name="com.android.settings.GfxEngineRelayService">
+            <intent-filter>
+                <action android:name="com.authentec.KeyguardSettings" />
+            </intent-filter>
+        </service>
+
         <activity android:name="com.android.settings.accounts.AddAccountSettings"
             android:theme="@android:style/Theme.Translucent.NoTitleBar"
             android:configChanges="orientation|keyboardHidden|screenSize"
@@ -1668,7 +1681,7 @@
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <action android:name="android.app.action.START_ENCRYPTION" />
-                <category android:name="android.intent.category.DEFAULT" /> />
+                <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
             <meta-data android:name="com.android.settings.FRAGMENT_CLASS"
                 android:value="com.android.settings.CryptKeeperSettings" />

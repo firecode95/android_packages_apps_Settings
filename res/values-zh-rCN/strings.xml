@@ -1829,4 +1829,42 @@
     <string name="user_picture_title" msgid="7297782792000291692">"照片 ID"</string>
     <string name="cell_broadcast_settings" msgid="8415582011920085222">"小区广播"</string>
     <string name="cell_broadcast_settings_summary" msgid="3301339398950905913">"请选择要显示的紧急消息类型。"</string>
+    <!-- Summary for PreferenceScreen to launch picker for security method when there is none -->
+    <string name="lockfinger_unlock_set_unlock_launch_picker_summary">使用图案、手指、PIN 或密码锁定屏幕</string>
+
+    <!-- Summary for PreferenceScreen to change security method: None/Pattern/Finger/PIN/Password -->
+    <string name="lockfinger_unlock_set_unlock_launch_picker_change_summary">更改或禁用图案、手指、PIN 或密码安全</string>
+
+    <!--  Title and summary for preference that guides the user through creating an unlock finger -->
+    <string name="lockfinger_unlock_set_unlock_finger_title">手指</string>
+    <string name="lockfinger_unlock_set_unlock_finger_summary">滑动手指以解锁屏幕</string>
+
+    <!-- Title for unlock finger settings screen -->
+    <string name="lockfinger_finger_settings_title">屏幕解锁指纹</string>
+
+    <!-- Title for preference that sets or changes unlock finger -->
+    <string name="lockfinger_set_finger_unlock_title">设置指纹解锁</string>
+    <string name="lockfinger_change_finger_unlock_title">更改指纹解锁</string>
+
+    <!-- Title and summary for preference that toggles the finger unlock -->
+    <string name="lockfinger_toggle_unlock_finger_title">需要指纹</string>
+    <string name="lockfinger_toggle_unlock_finger_summary">必须使用指纹才能解锁屏幕</string>
+
+    <!-- Title for preference that start True Suite Administration -->
+    <string name="lockfinger_dbadmin_title">TrueSuite 管理</string>
+
+    <!-- Summary shown under unlock_disable_lock_title when finger is in use and can be removed -->
+    <string name="lockfinger_unlock_disable_lock_finger_summary">删除解锁手指</string>
+
+    <!-- Title shown on security settings to allow the user to change their lockscreen finger -->
+    <string name="unlock_change_lock_finger_title">更改解锁手指</string>
+
+    <!-- Toast shown if setting finger was successful -->
+    <string name="lockpassword_finger_set_toast">手指已设置</string>
+
+    <!-- Security & location settings screen, setting option name for finger -->
+    <string name="lockpattern_change_lock_finger_label">更改解锁手指</string>
+
+    <!-- Unlock finger settings screen, Toast shown if there is a semaphore failure. -->
+    <string name="lockfinger_semaphore_failure_toast">信号灯故障</string>
 </resources>

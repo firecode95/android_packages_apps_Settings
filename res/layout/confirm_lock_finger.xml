@@ -25,7 +25,7 @@
         android:layout_height="0dip"
         android:layout_weight="1.0"
         android:gravity="center"
-        android:textSize="18sp"/>
+        android:textSize="18sp" />
 
     <View
          android:background="@*android:drawable/code_lock_top"
